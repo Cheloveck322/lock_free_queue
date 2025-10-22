@@ -15,13 +15,13 @@ RingBuffer<T, N>::RingBuffer(std::initializer_list<T> list)
         size_t i{ 0 };
         _buffer[i++] = a;
     }
-}
+}   
 
 template <typename T, size_t N>
 void RingBuffer<T, N>::push(const T& value)
 {
-    size_t curr_index{ _head.load(std::memory_order_relaxed) };
-    bool is_full{ curr_index == _tail.load(std::memory_order_acquire) };
+    size_t next_index{ (_head + 1) % N };
+    bool is_full{ next_index == _tail.load(std::memory_order_relaxed) };
 
     if (is_full)
     {
@@ -35,7 +35,8 @@ void RingBuffer<T, N>::push(const T& value)
 template <typename T, size_t N>
 T RingBuffer<T, N>::pop()
 {
-    if (empty()) throw std::out_of_range("Buffer is empty");
+    while (_head.load(std::memory_order_seq_cst) == _tail.load(std::memory_order_relaxed)); // wait while they are same 
+
     size_t curr_index{ _tail.load(std::memory_order_relaxed) };
     increase_tail();
     return _buffer[curr_index];

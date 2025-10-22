@@ -19,13 +19,12 @@ public:
     T pop();
     
     std::size_t size() const { return _buffer.size(); }
-    bool empty() { return _buffer.empty(); }
     T& operator[](size_t i) { return _buffer[i]; }
 
 private:
     std::array<T, N> _buffer{};
     std::atomic<std::size_t> _head{ 0 };
-    std::atomic<std::size_t> _tail{ N - 1 };
+    std::atomic<std::size_t> _tail{ 0 };
 
     void increase_head()
     {
@@ -41,5 +40,7 @@ private:
         _tail.store(next, std::memory_order_release);
     }
 };
+
+#include "../src/ring_buffer.cpp"
 
 #endif

@@ -1,22 +1,25 @@
 #include "../include/ring_buffer.hpp"
-#include "ring_buffer.cpp"
 #include <iostream>
+#include <thread>
+#include <functional>
 
 int main() 
 {
-    RingBuffer<int, 5> cb;
-    cb.push(1);
-    cb.push(2);
-    cb.push(3);
-    std::cout << cb.pop() << std::endl; // Outputs: 1
-    cb.push(4);
-    cb.push(5);
-    cb.push(6); // Overwrites the oldest (2)
-    std::cout << cb.pop() << std::endl; // Outputs: 3
+    RingBuffer<int, 10> bf;
 
-    for (int i{ 0 }; i < 5; ++i)
+    for (int i{ 0 }; i < 1000; ++i)
     {
-        std::cout << cb[i] << ' ';
+        std::thread producer{ &RingBuffer<int, 10>::push, &bf, i };
+        std::thread consumer{ &RingBuffer<int, 10>::pop, &bf };
+
+        producer.join();
+        consumer.join();
     }
+    for (size_t i{ 0 }; i < bf.size(); ++i)
+    {
+        std::cout << bf[i] << ' ';
+    }
+    std::cout << std::endl;
+
     return 0;
 }
