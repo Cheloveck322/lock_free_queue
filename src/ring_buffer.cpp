@@ -1,5 +1,4 @@
 #include "../include/ring_buffer.hpp"
-#include <iostream>
 
 template <typename T, size_t N>
 RingBuffer<T, N>::RingBuffer(std::array<T, N>& arr)
