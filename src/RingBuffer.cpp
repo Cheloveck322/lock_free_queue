@@ -1,4 +1,4 @@
-#include "../include/ring_buffer.hpp"
+#include "../include/RingBuffer.hpp"
 
 template <typename T, size_t N>
 RingBuffer<T, N>::RingBuffer(std::array<T, N>& arr)
@@ -33,7 +33,7 @@ bool RingBuffer<T, N>::push(const T& value)
 }
 
 template <typename T, size_t N>
-bool RingBuffer<T, N>::pop()
+bool RingBuffer<T, N>::pop(T& item)
 {
     size_t tail{ _tail.load(std::memory_order_relaxed) };
     size_t next_index{ (tail + 1) % N };
@@ -42,7 +42,7 @@ bool RingBuffer<T, N>::pop()
     {
         return false;
     }
-
+    item = _buffer[tail];
     _tail.store(next_index, std::memory_order_release);
     return true;
 }

@@ -1,4 +1,4 @@
-#include "../include/ring_buffer.hpp"
+#include "../include/RingBuffer.hpp"
 #include "../include/MPMCqueue.hpp"
 #include <iostream>
 #include <thread>

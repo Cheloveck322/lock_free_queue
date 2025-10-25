@@ -15,7 +15,7 @@ public:
     explicit RingBuffer(std::initializer_list<T> list);
 
     bool push(const T& item);
-    bool pop();
+    bool pop(T& item);
     
     std::size_t size() const { return _buffer.size(); }
     T& operator[](size_t i) { return _buffer[i]; }
@@ -26,6 +26,6 @@ private:
     std::atomic<std::size_t> _tail{ 0 };
 };
 
-#include "../src/ring_buffer.cpp"
+#include "../src/RingBuffer.cpp"
 
 #endif
