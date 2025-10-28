@@ -92,7 +92,6 @@ make -j
 ### Запуск тестов производительности
 
 ```bash
-make benchmark_queue
 ./benchmark_queue
 ```
 
