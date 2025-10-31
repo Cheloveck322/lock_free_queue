@@ -76,6 +76,5 @@ void test_mpmc_queue() {
 int main() 
 {
     test_mpmc_queue();
-
     return 0;
 }

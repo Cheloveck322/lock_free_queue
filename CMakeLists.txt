@@ -12,7 +12,7 @@ else()
     add_compile_options(-Wall -Wextra -Wpedantic -Werror)
 endif()
 
-include_directories(${CMAKE_SOURCE_DIR}/include)
+include_directories(${CMAKE_SOURCE_DIR}/include)s
 
 add_executable(lock_free
     src/main.cpp

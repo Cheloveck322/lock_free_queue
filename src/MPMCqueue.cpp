@@ -1,16 +1,16 @@
 #include "../include/MPMCqueue.hpp"
 
-template <typename T, size_t N>
+template <typename T, std::size_t N>
 MPMCqueue<T, N>::MPMCqueue()
 {
-    for (size_t i = 0; i < N; ++i)
+    for (std::size_t i = 0; i < N; ++i)
         _buffer[i].sequence.store(i, std::memory_order_relaxed);
 }
 
-template <typename T, size_t N>
+template <typename T, std::size_t N>
 bool MPMCqueue<T, N>::push(const T& item)
 {
-    size_t head{};
+    std::size_t head{};
     Cell<T>* cell{ nullptr };
 
     for (;;)
@@ -40,17 +40,17 @@ bool MPMCqueue<T, N>::push(const T& item)
     return true;
 }
 
-template <typename T, size_t N>
+template <typename T, std::size_t N>
 bool MPMCqueue<T, N>::pop(T& item)
 {
-    size_t tail{};
+    std::size_t tail{};
     Cell<T>* cell{ nullptr };
 
     for (;;)
     {
         tail = _tail.load(std::memory_order_relaxed);
         cell = &_buffer[tail % N];
-        size_t seq{ cell->sequence.load(std::memory_order_acquire) };
+        std::size_t seq{ cell->sequence.load(std::memory_order_acquire) };
         int diff{ static_cast<int>(seq) - static_cast<int>(tail + 1) };
         if (diff == 0)
         {

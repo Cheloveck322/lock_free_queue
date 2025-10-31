@@ -27,6 +27,6 @@ class MPMCqueue
     std::atomic<std::size_t> _tail{};
 };
 
-#include "../src/MPMCqueue.cpp"
+//#include "../src/MPMCqueue.cpp"
 
 #endif

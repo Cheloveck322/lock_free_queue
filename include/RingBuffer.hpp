@@ -6,7 +6,7 @@
 #include <utility>
 #include <atomic>
 
-template <typename T, size_t N>
+template <typename T, std::size_t N>
 class RingBuffer
 {
 public: 
@@ -18,7 +18,7 @@ public:
     bool pop(T& item);
     
     std::size_t size() const { return _buffer.size(); }
-    T& operator[](size_t i) { return _buffer[i]; }
+    T& operator[](std::size_t i) { return _buffer[i]; }
 
 private:
     std::array<T, N> _buffer{};
